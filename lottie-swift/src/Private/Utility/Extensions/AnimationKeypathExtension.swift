@@ -124,6 +124,37 @@ extension KeypathSearchable {
       child.logKeypaths(for: newKeypath)
     }
   }
+    
+    func listKeypaths(for keyPath: AnimationKeypath?, _ endPath: String? = nil) -> [AnimationKeypath] {
+        let newKeypath: AnimationKeypath
+        if let previousKeypath = keyPath {
+            newKeypath = previousKeypath.appendingKey(keypathName)
+        } else {
+            newKeypath = AnimationKeypath(keys: [keypathName])
+        }
+        
+        if childKeypaths.count > 0 {
+            let subKeypaths = childKeypaths.map({ return $0.listKeypaths(for: newKeypath, endPath) })
+            var keyPaths = [AnimationKeypath]()
+            subKeypaths.forEach({ keyPaths.append(contentsOf: $0) })
+            return keyPaths
+        }
+        
+        if keypathProperties.keys.count > 0 {
+            return keypathProperties.keys.compactMap({ (key) -> AnimationKeypath? in
+                if let endPath = endPath, endPath != key {
+                    return nil
+                }
+                return newKeypath.appendingKey(key)
+            })
+        }
+        
+        if let endKey = endPath, endKey != newKeypath.keys.last {
+            return []
+        }
+        
+        return [newKeypath]
+    }
 }
 
 extension AnimationKeypath {

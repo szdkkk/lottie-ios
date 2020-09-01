@@ -49,6 +49,12 @@ final class AnimationContainer: CALayer {
     print("Lottie: Logging Animation Keypaths")
     animationLayers.forEach({ $0.logKeypaths(for: nil) })
   }
+    
+    func listKeypaths(_ endPath: String? = nil) -> [AnimationKeypath] {
+        var keyPaths = [AnimationKeypath]()
+        animationLayers.forEach({ keyPaths.append(contentsOf: $0.listKeypaths(for: nil, endPath)) })
+        return keyPaths
+    }
   
   func setValueProvider(_ valueProvider: AnyValueProvider, keypath: AnimationKeypath) {
     for layer in animationLayers {

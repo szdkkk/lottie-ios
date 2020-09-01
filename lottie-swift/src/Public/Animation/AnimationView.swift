@@ -450,6 +450,10 @@ final public class AnimationView: LottieView {
   public func logHierarchyKeypaths() {
     animationLayer?.logHierarchyKeypaths()
   }
+    
+    public func listKeypaths(_ endPath: String? = nil) -> [AnimationKeypath]? {
+        return animationLayer?.listKeypaths(endPath)
+    }
   
   // MARK: - Public (Add Subview)
   
