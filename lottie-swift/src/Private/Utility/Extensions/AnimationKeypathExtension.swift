@@ -223,6 +223,18 @@ extension AnimationKeypath {
     newKeys.append(key)
     return AnimationKeypath(keys: newKeys)
   }
+    
+    public var descPath: String {
+        return keys.joined(separator: ".")
+    }
+    
+    public static func == (lhs: AnimationKeypath, rhs: AnimationKeypath) -> Bool {
+        return lhs.descPath == rhs.descPath
+    }
+    
+    public static func != (lhs: AnimationKeypath, rhs: AnimationKeypath) -> Bool {
+        return lhs.descPath != rhs.descPath
+    }
 }
 
 
